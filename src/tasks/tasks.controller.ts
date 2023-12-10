@@ -10,49 +10,54 @@ import {
   Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
-import { Task } from './task.model';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTaskFilterDto } from './dto/get-task-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+import { Task } from './task.entity';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get()
-  getTasks(@Query() filterDto: GetTaskFilterDto): Task[] {
-    return this.tasksService.getTasks(filterDto);
+  getTasks(): Promise<Task[]> {
+    return this.tasksService.getTasks();
   }
 
-  @Post()
-  createTask(@Body() { title, description }: CreateTaskDto): Task {
-    const errors: Record<string, string> = {};
+  // @Get()
+  // getTasks(@Query() filterDto: GetTaskFilterDto): Task[] {
+  //   return this.tasksService.getTasks(filterDto);
+  // }
 
-    if (title.trim() === '') errors.title = 'Field is required';
-    if (description.trim() === '') errors.description = 'Field is required';
+  // @Post()
+  // createTask(@Body() { title, description }: CreateTaskDto): Task {
+  //   const errors: Record<string, string> = {};
 
-    if (Object.keys(errors).length !== 0) {
-      throw new BadRequestException(errors);
-    }
+  //   if (title.trim() === '') errors.title = 'Field is required';
+  //   if (description.trim() === '') errors.description = 'Field is required';
 
-    return this.tasksService.createTask({ title, description });
-  }
+  //   if (Object.keys(errors).length !== 0) {
+  //     throw new BadRequestException(errors);
+  //   }
 
-  @Get('/:id')
-  getTaskById(@Param('id') id: string) {
-    return this.tasksService.getTaskById(id);
-  }
+  //   return this.tasksService.createTask({ title, description });
+  // }
 
-  @Delete('/:id')
-  deleteTaskById(@Param('id') id: string) {
-    return this.tasksService.deleteTaskById(id);
-  }
+  // @Get('/:id')
+  // getTaskById(@Param('id') id: string) {
+  //   return this.tasksService.getTaskById(id);
+  // }
 
-  @Patch('/:id/status')
-  updateTaskStatus(
-    @Param('id') id: string,
-    @Body() updateTaskStatusDto: UpdateTaskStatusDto,
-  ): Task {
-    return this.tasksService.updateTaskStatus(id, updateTaskStatusDto);
-  }
+  // @Delete('/:id')
+  // deleteTaskById(@Param('id') id: string) {
+  //   return this.tasksService.deleteTaskById(id);
+  // }
+
+  // @Patch('/:id/status')
+  // updateTaskStatus(
+  //   @Param('id') id: string,
+  //   @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+  // ): Task {
+  //   return this.tasksService.updateTaskStatus(id, updateTaskStatusDto);
+  // }
 }
