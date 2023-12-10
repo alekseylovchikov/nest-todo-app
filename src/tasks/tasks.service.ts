@@ -8,19 +8,19 @@ import { CreateTaskDto } from './dto/create-task.dto';
 export class TasksService {
   private tasks: Task[] = [
     {
-      id: '123',
+      id: '1',
       title: 'hello',
       description: 'hello 123',
       status: TaskStatuses.OPEN,
     },
     {
-      id: '29182',
+      id: '2',
       title: 'wow',
       description: 'hello 02',
       status: TaskStatuses.DONE,
     },
     {
-      id: '912',
+      id: '3',
       title: 'wow 123',
       description: 'HI!',
       status: TaskStatuses.IN_PROGESS,
@@ -37,6 +37,14 @@ export class TasksService {
     if (!task) {
       throw new NotFoundException(`Task with id ${id} not found`);
     }
+
+    return task;
+  }
+
+  deleteTaskById(id: string): Task {
+    const task = this.getTaskById(id);
+
+    this.tasks = this.tasks.filter((task) => task.id !== id);
 
     return task;
   }

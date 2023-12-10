@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -33,9 +34,13 @@ export class TasksController {
     return this.tasksService.createTask({ title, description });
   }
 
-  @Get(':id')
+  @Get('/:id')
   getTaskById(@Param('id') id: string) {
-    console.log(id);
     return this.tasksService.getTaskById(id);
+  }
+
+  @Delete('/:id')
+  deleteTaskById(@Param('id') id: string) {
+    return this.tasksService.deleteTaskById(id);
   }
 }
