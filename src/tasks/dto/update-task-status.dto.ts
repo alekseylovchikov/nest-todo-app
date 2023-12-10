@@ -1,5 +1,5 @@
 import { IsIn } from 'class-validator';
-import { TaskStatuses } from '../task-status.enum';
+import { TaskStatuses } from '../task-statuses.enum';
 
 export class UpdateTaskStatusDto {
   @IsIn(Object.values(TaskStatuses))

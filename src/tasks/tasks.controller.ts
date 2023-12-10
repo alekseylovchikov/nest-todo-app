@@ -29,24 +29,15 @@ export class TasksController {
   //   return this.tasksService.getTasks(filterDto);
   // }
 
-  // @Post()
-  // createTask(@Body() { title, description }: CreateTaskDto): Task {
-  //   const errors: Record<string, string> = {};
+  @Post()
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksService.createTask(createTaskDto);
+  }
 
-  //   if (title.trim() === '') errors.title = 'Field is required';
-  //   if (description.trim() === '') errors.description = 'Field is required';
-
-  //   if (Object.keys(errors).length !== 0) {
-  //     throw new BadRequestException(errors);
-  //   }
-
-  //   return this.tasksService.createTask({ title, description });
-  // }
-
-  // @Get('/:id')
-  // getTaskById(@Param('id') id: string) {
-  //   return this.tasksService.getTaskById(id);
-  // }
+  @Get('/:id')
+  getTaskById(@Param('id') id: string): Promise<Task> {
+    return this.tasksService.getTaskById(id);
+  }
 
   // @Delete('/:id')
   // deleteTaskById(@Param('id') id: string) {
