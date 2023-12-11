@@ -28,14 +28,16 @@ export class TasksService {
     return task;
   }
 
-  createTask({ title, description }: CreateTaskDto): Promise<Task> {
-    const task = new Task();
+  async createTask({ title, description }: CreateTaskDto): Promise<Task> {
+    const task = this.tasksRepository.create({
+      title,
+      description,
+      status: TaskStatuses.OPEN,
+    });
 
-    task.title = title;
-    task.description = description;
-    task.status = TaskStatuses.OPEN;
+    await this.tasksRepository.save(task);
 
-    return this.tasksRepository.save(task);
+    return task;
   }
 
   // getTasks({ status, search = '' }: GetTaskFilterDto): Task[] {
