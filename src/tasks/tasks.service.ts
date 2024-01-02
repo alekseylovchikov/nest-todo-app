@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { TaskStatuses } from './task-statuses.enum';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { Task } from './task.entity';
+import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 
 @Injectable()
 export class TasksService {
@@ -61,25 +62,23 @@ export class TasksService {
   //   return task;
   // }
 
-  async deleteTaskById(id: string): Promise<Task> {
-    const task = await this.getTaskById(id);
+  async deleteTaskById(id: string): Promise<void> {
+    const result = await this.tasksRepository.delete(id);
 
-    return this.tasksRepository.remove(task);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
   }
 
-  // deleteTaskById(id: string): Task {
-  //   const task = this.getTaskById(id);
+  async updateTaskStatus(
+    id: string,
+    { status: newStatus }: UpdateTaskStatusDto,
+  ): Promise<Task> {
+    const task = await this.getTaskById(id);
 
-  //   this.tasks = this.tasks.filter((task) => task.id !== id);
+    task.status = newStatus;
+    await this.tasksRepository.save(task);
 
-  //   return task;
-  // }
-
-  // updateTaskStatus(id: string, { status }: UpdateTaskStatusDto): Task {
-  //   const task = this.getTaskById(id);
-
-  //   task.status = status;
-
-  //   return task;
-  // }
+    return task;
+  }
 }
