@@ -61,6 +61,12 @@ export class TasksService {
   //   return task;
   // }
 
+  async deleteTaskById(id: string): Promise<Task> {
+    const task = await this.getTaskById(id);
+
+    return this.tasksRepository.remove(task);
+  }
+
   // deleteTaskById(id: string): Task {
   //   const task = this.getTaskById(id);
 
